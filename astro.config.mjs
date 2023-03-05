@@ -8,9 +8,14 @@ import AutoImport from 'unplugin-auto-import/astro';
 import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
+import cloudflare from "@astrojs/cloudflare";
+
+// https://astro.build/config
 export default defineConfig({
   integrations: [vue(), AutoImport({
     /* options */
     imports: ['vue']
-  }), tailwind()]
+  }), tailwind()],
+  output: "server",
+  adapter: cloudflare()
 });
