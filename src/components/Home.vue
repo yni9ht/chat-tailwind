@@ -1,105 +1,56 @@
 <template>
   <div class="flex flex-col items-center justify-center w-screen min-h-screen bg-gray-100 text-gray-800 p-10">
     <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
-      <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
-        <div class="flex w-full mt-2 space-x-3 max-w-xs">
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-          <div>
-            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs">
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-          <div>
-            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt
-                ut labore et dolore magna aliqua. </p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt
-                ut labore et dolore magna aliqua. </p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs">
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-          <div>
-            <div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-              <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt
-                ut labore et dolore magna aliqua. </p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-        </div>
-        <div class="flex w-full mt-2 space-x-3 max-w-xs ml-auto justify-end">
-          <div>
-            <div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-br-lg">
-              <p class="text-sm">Lorem ipsum dolor sit.</p>
-            </div>
-            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
-          </div>
-          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div>
-        </div>
+
+      <div id="content" class="flex flex-col flex-grow h-0 p-4 overflow-auto">
+        <template v-for="(item,i) in messages" :key="i">
+          <MessageItem :message="item"/>
+        </template>
       </div>
 
-      <div class="bg-gray-300 p-4">
-        <input class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…">
+      <div id="action" class="flex bg-gray-300 p-4">
+        <input class="flex items-center h-10 w-10/12 rounded px-3 text-sm"
+               type="text"
+               placeholder="Type your message…"
+               v-model="message"/>
+        <button class="flex items-center mx-2 px-6 h-10 w-2/12 rounded bg-sky-400" @click="sendMessages"> send</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+
+import MessageItem from "./MessageItem.vue";
+
+const messages = ref([])
+const message = ref('')
+const sendMessages = async function () {
+  if (message.value === '') {
+    return
+  }
+  messages.value.push({role: 'user', content: message.value})
+  message.value = ''
+
+  const data = {
+    messages: unref(messages)
+  }
+  fetch("/api/chatgpt",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+  ).then(async res => {
+    const body = await res.json()
+    messages.value.push(body)
+  }).catch(err => {
+    console.log('err', err)
+    messages.value.push({role: 'assistant', content: "Sorry, Network Error"})
+  })
+}
 </script>
 
 <style scoped>
