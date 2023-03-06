@@ -1,5 +1,4 @@
 import type {APIContext, APIRoute} from 'astro';
-import {fetch, ProxyAgent} from 'undici'
 
 const API_KEY = import.meta.env.OPENAI_API_KEY
 
@@ -32,7 +31,7 @@ export const post: APIRoute = async function post(context: APIContext) {
         temperature: 0.5,
     }
 
-    const proxyAgent = new ProxyAgent(HTTP_PROXY)
+    // const proxyAgent = new ProxyAgent(HTTP_PROXY)
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: 'POST',
@@ -40,7 +39,7 @@ export const post: APIRoute = async function post(context: APIContext) {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${API_KEY}`,
         },
-        dispatcher: proxyAgent,
+        // dispatcher: proxyAgent,
         body: JSON.stringify(payload),
     })
 
